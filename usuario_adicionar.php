@@ -8,7 +8,7 @@ $senhaCripto = password_hash($senha, PASSWORD_BCRYPT);
 
 require('pdo.inc.php');
 
-$gravar = $pdo->prepare('INSERT INTO usuarios (name, password, active, admin) 
+$gravar = $pdo->prepare('INSERT INTO usuarios (username, password, active, admin) 
 VALUES (:usr, :pass, "1", :adm)'  );
 
 $gravar->bindParam(':usr', $usuario);
