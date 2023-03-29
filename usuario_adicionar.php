@@ -1,21 +1,21 @@
 <?php
+require('models/Model.php');
+require('models/Usuario.php');
 
-$usuario = $_POST['username'];
-$senha = $_POST['password'];
+
+$username = $_POST['username'] ?? false;
+$password = $_POST['password'] ?? false;
 $admin = isset($_POST['admin']);
 
-$senhaCripto = password_hash($senha, PASSWORD_BCRYPT);
+$password = password_hash($password, PASSWORD_BCRYPT);
 
-require('pdo.inc.php');
-
-$gravar = $pdo->prepare('INSERT INTO usuarios (username, password, active, admin) 
-VALUES (:usr, :pass, "1", :adm)'  );
-
-$gravar->bindParam(':usr', $usuario);
-$gravar->bindParam(':pass', $senhaCripto);
-$gravar->bindParam(':adm', $admin);
-
-$gravar->execute();
+$usuario = new Usuario();
+$usuario->create([
+    'username' => $username,
+    'password' => $password,
+    'admin' => $admin,
+    'active' => 1
+]);
 
 header('location:usuarios.php');
 die;
